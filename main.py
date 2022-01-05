@@ -14,19 +14,11 @@ print(response.text)
 
 
 # 4
-print('-------GET--------')
+
 for i in ('POST', 'DELETE', 'PUT', 'GET'):
-    response = requests.get("https://playground.learnqa.ru/ajax/api/compare_query_type", params={'method': i})
-    print(response.text)
-print('------DELETE---------')
-for i in ('POST', 'DELETE', 'PUT', 'GET'):
-    response = requests.delete("https://playground.learnqa.ru/ajax/api/compare_query_type", data={'method': i})
-    print(response.text)
-print('------PUT---------')
-for i in ('POST', 'DELETE', 'PUT', 'GET'):
-    response = requests.put("https://playground.learnqa.ru/ajax/api/compare_query_type", data={'method': i})
-    print(response.text)
-print('-------POST--------')
-for i in ('POST', 'DELETE', 'PUT', 'GET'):
-    response = requests.post("https://playground.learnqa.ru/ajax/api/compare_query_type", data={'method': i})
-    print(response.text)
+    for j in ('post', 'delete', 'put', 'get'):
+        response = requests.request(j, "https://playground.learnqa.ru/ajax/api/compare_query_type",
+                                    params={'method': i})
+        print(response.text)
+    print("-----", i, "/", j, "------")
+
