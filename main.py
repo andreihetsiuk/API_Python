@@ -1,24 +1,25 @@
 import requests
+import json
+import time
 
-#1
-response = requests.get("https://playground.learnqa.ru/ajax/api/compare_query_type")
-print(response.text)
+response = requests.get("https://playground.learnqa.ru/ajax/api/longtime_job", params={'': ''})
+obj = response.text
+obj = json.loads(obj)
+sec = obj['seconds']
+tok = obj['token']
+response = requests.get("https://playground.learnqa.ru/ajax/api/longtime_job", params={'token': tok})
+obj = response.text
+obj = json.loads(obj)
+assert (obj['status']) == 'Job is NOT ready'
+time.sleep(sec)
+response = requests.get("https://playground.learnqa.ru/ajax/api/longtime_job", params={'token': tok})
+obj = response.text
+obj = json.loads(obj)
+assert (obj['status']) == 'Job is ready'
+if 'result' in obj:
+    pass
+else:
+    print(f'result is absent')
 
-#2
-response = requests.head("https://playground.learnqa.ru/ajax/api/compare_query_type", params={'method': 'HEAD'})
-print(response.text)
 
-#3
-response = requests.get("https://playground.learnqa.ru/ajax/api/compare_query_type", params={'method': 'GET'})
-print(response.text)
-
-
-# 4
-
-for i in ('POST', 'DELETE', 'PUT', 'GET'):
-    for j in ('post', 'delete', 'put', 'get'):
-        response = requests.request(j, "https://playground.learnqa.ru/ajax/api/compare_query_type",
-                                    params={'method': i})
-        print(response.text)
-    print("-----", i, "/", j, "------")
 
