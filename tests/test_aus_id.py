@@ -1,6 +1,7 @@
 import requests
 import pytest
 from lib.BaseCase import BaseCase
+from lib.assertions import Assertions
 
 
 class TestUserAuth(BaseCase):
@@ -35,9 +36,15 @@ class TestUserAuth(BaseCase):
             cookies={"auth_sid": self.auth_sid}
         )
 
-        assert "user_id" in response2.json(), "user_id not in response2"
-        user_id_from_check_method = response2.json()['user_id']
-        assert user_id_from_check_method == self.user_id_from_auth_method, "not equal"
+        Assertions.assert_json_value_by_name(
+            response2,
+            "user_id",
+            self.user_id_from_auth_method,
+            "not equal user_id from check to auth method"
+        )
+        # assert "user_id" in response2.json(), "user_id not in response2"
+        # user_id_from_check_method = response2.json()['user_id']
+        # assert user_id_from_check_method == self.user_id_from_auth_method, "not equal"
 
     @pytest.mark.parametrize("condition", neg_params)
     def test_negative_auth(self, condition):
@@ -54,6 +61,7 @@ class TestUserAuth(BaseCase):
                 cookies={"auth_sid": self.auth_sid}
 
             )
-        assert "user_id" in response2.json(), "user_id is absent"
-        user_id = response2.json()['user_id']
-        assert user_id == 0, 'uer_id not equal 0'
+        Assertions.assert_json_value_by_name(response2, "user_id", 0, f'user autherizied with {condition}')
+        # assert "user_id" in response2.json(), "user_id is absent"
+        # user_id = response2.json()['user_id']
+        # assert user_id == 0, 'uer_id not equal 0'
