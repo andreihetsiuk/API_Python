@@ -14,5 +14,5 @@ class TestUserRegister(BaseCase):
             'email': email
         }
         response = requests.post("https://playground.learnqa.ru/api/user/", data=data)
-        assert response.status_code == 400, f"status code is not 400"
+        assert response.status_code == 400, f"status code isn't 400"
         assert response.content.decode('utf-8') == f"Users with email '{email}' already exists", f"Unexpected content respond {response.content}"
