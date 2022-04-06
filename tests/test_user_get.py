@@ -23,7 +23,6 @@ class TestUserGet(BaseCase):
         token = self.get_headers(response1, "x-csrf-token")
         user_id_from_auth_method = self.get_json_value(response1, "user_id")
 
-
         response2 = requests.get(f"https://playground.learnqa.ru/api/user/{user_id_from_auth_method}",
                                  headers={"x-csrf-token": token},
                                  cookies={"auth-sid": auth_sid}
@@ -31,4 +30,3 @@ class TestUserGet(BaseCase):
 
         expected_fields = ["username", "email", "firstName", "lastName"]
         Assertions.assert_json_has_keys(response2, expected_fields)
-
