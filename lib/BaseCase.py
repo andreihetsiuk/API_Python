@@ -1,5 +1,7 @@
 from requests import Response
 import json.decoder
+from datetime import datetime
+
 
 class BaseCase:
     def get_cookie(self, response: Response, cookie_name):
@@ -19,3 +21,17 @@ class BaseCase:
 
         return response_as_dict[name]
 
+    def prepare_registration_data(self, email=None):
+        if email is None:
+            base_type = "learn"
+            domain = "example.com"
+            random_part = datetime.now().strftime("%m%d%Y%H%M%S")
+            email = f"{base_type}{random_part}@{domain}"
+        return {
+            'password': '123',
+            'username': 'learnqa',
+            'firstName': 'learnqa',
+            'lastName': 'learnqa',
+            'email': email
+
+        }
